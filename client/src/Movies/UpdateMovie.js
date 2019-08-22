@@ -23,7 +23,8 @@ const [movie, setMovie] = useState({title: '', director: '', metascore: '', star
             const newMovielist = props.movie.filter(mov => mov.id !== res.data.id)
             newMovielist.push(res.data)
             props.setMovie(newMovielist)
-            console.log('movielist', newMovielist)
+            props.history.push('/')
+            //console.log('movielist', newMovielist)
         })
         .catch(error => console.log(error.response))
     }
