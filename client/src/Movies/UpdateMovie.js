@@ -1,13 +1,19 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import axios from 'axios'
 
 const UpdateMovie = props => {
 
-const [movie, setMovie] = useState({name: '', director: '', metascore: '', actors: ''})
+const [movie, setMovie] = useState({name: '', director: '', metascore: '', stars: ''})
+
+    useEffect(() => {
+        const id = props.match.params.id
+        console.log(id)
+    }, [])
+
 
     const handleSubmit = event => {
         event.preventDefault()
-
+        //axios.put(`http://localhost:5000/api/movies/${movie.id}`, movie)
     }
 
     const handleChange = event => {
@@ -43,9 +49,9 @@ const [movie, setMovie] = useState({name: '', director: '', metascore: '', actor
             />
             <label>Actors</label>
             <input 
-            name= 'actors'
+            name= 'stars'
             type='text'
-            value={movie.actors}
+            value={movie.stars}
             onChange={event => handleChange(event)}
             />
             <button>Update</button> 
