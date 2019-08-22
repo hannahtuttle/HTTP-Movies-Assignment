@@ -18,7 +18,7 @@ const App = () => {
       axios
         .get("http://localhost:5000/api/movies")
         .then(res => {
-          console.log(res.data)
+          // console.log(res.data)
           setMovie(res.data)})
         .catch(err => console.log(err.response));
     },[]) 
@@ -42,7 +42,7 @@ const App = () => {
       <Route
         path="/update-movie/:id"
         render={props => {
-          return <UpdateMovie {...props}  />;
+          return <UpdateMovie {...props}  movie={movie} setMovie={setMovie}/>;
         }}
       />
     </>

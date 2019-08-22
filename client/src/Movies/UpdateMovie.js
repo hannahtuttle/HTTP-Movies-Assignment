@@ -3,18 +3,32 @@ import axios from 'axios'
 
 const UpdateMovie = props => {
 
-const [movie, setMovie] = useState({name: '', director: '', metascore: '', stars: ''})
+const [movie, setMovie] = useState({title: '', director: '', metascore: '', stars: [], id: ''})
 
     useEffect(() => {
         const id = props.match.params.id
-        console.log(id)
-    }, [])
+        console.log('id',id)
+        const individualMovie = props.movie.find(item => `${item.id}` === id)
+        if(individualMovie){
+            setMovie(individualMovie)
+        }
+        console.log(individualMovie)
+    }, [props.movie, props.match.params.id])
 
 
     const handleSubmit = event => {
         event.preventDefault()
-        //axios.put(`http://localhost:5000/api/movies/${movie.id}`, movie)
+        axios.put(`http://localhost:5000/api/movies/${movie.id}`, movie)
+        .then(res => {
+            const newMovielist = props.movie.filter(mov => mov.id !== res.data.id)
+            newMovielist.push(res.data)
+            props.setMovie(newMovielist)
+            console.log('movielist', newMovielist)
+        })
+        .catch(error => console.log(error.response))
     }
+
+    //console.log('movie', movie)
 
     const handleChange = event => {
         setMovie({
@@ -24,13 +38,23 @@ const [movie, setMovie] = useState({name: '', director: '', metascore: '', stars
 
     }
 
+    // const handleStarsChange = (index, event) => {
+    //     const updateStars = [...movie.stars]
+    //     updateStars[index] = event.target.value
+    //     setMovie({
+    //         ...movie,
+    //         stars: updateStars
+    //     })
+
+    // }
+
     return (
         <form onSubmit={event => handleSubmit(event)}>
             <label>Title</label>
             <input 
-            name= 'name'
+            name= 'title'
             type='text'
-            value={movie.name}
+            value={movie.title}
             onChange={event => handleChange(event)}
             />
             <label>Director</label>
